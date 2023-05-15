@@ -1,0 +1,73 @@
+<html><head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container-fluid h-100">
+    <div class="row justify-content-center h-100">		
+        <div class="col-md-8 col-xl-6 chat">
+        <div class="card">
+            <div>
+<h1>chatbot</h1>
+                <form action="/process_dropdown" method="POST">
+                    <label for="dropdown">Select an option:</label>
+                    <select id="dropdown" name="dropdown" fdprocessedid="tm50b">
+                    <option value="english">english</option>
+                    <option value="hindi">hindi</option>
+                    <option value="tamil">tamil</option>
+                    <option value="telugu">telugu</option>
+                    <option value="malayalam">malayalam</option>
+                    <option value="kannada">kannada</option>
+                </select>
+                <button type="submit" fdprocessedid="lf576o">Submit</button>
+            </form>
+
+            <div id="chatbox">
+                <p class="botText"><span>hi i am your chatter bot</span></p>
+            </div>
+            <div id="userInput">
+                <input id="textInput" type="text" name="msg" placeholder="Message" fdprocessedid="hh17k">
+                <input id="buttonInput" type="submit" value="Send" fdprocessedid="qmrq78">
+            </div>
+
+        </div>
+    </div>
+</div>
+        <script>
+            function getBotResponse(){
+                var rawText=$("#textInput").val();
+                var userHtml='<p class="userText"><span>'+rawText+'</span></p>'; 
+                $("#textInput").val("");
+                $("#chatbox").append(userHtml);
+                document.getElementById("userInput").scrollIntoView({block:'start',behaviour:'smooth'});
+                $.get("/get",{msg:rawText}).done(function(data){
+                var botHtml='<p class="botText"><span>'+data+'</span></p>';
+                $("#chatbox").append(botHtml);
+                document.getElementById("userInput").scrollIntoView({block:'start',behaviour:'smooth'});
+                
+
+            });
+
+            }
+            $("#textInput").keypress(function(e){
+            if(e.which==13){
+                getBotResponse();
+            }
+        });
+        $("#buttonInput").click(function(){
+            getBotResponse();
+        })
+
+        </script>
+    </div>
+
+
+
+</div></body></html>
